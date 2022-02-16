@@ -18,6 +18,9 @@ export default function main() {
     })
     .catch((error) => {
       console.log(error);
+    })
+    .finally(() => {
+      console.log('结束');
     });
 
   // 并发执行第一个返回结果决定整体结果
@@ -28,6 +31,9 @@ export default function main() {
     })
     .catch((error) => {
       console.log(error);
+    })
+    .finally(() => {
+      console.log('结束');
     });
 
   console.log('测试 Promise all race');
