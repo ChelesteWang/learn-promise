@@ -3,7 +3,7 @@ const REJECTED = 'rejected';
 const FULFILLED = 'fulfilled';
 
 /**
- * 处理状态转换
+ * 处理异步事件
  */
 
 export default class MyPromise {
@@ -17,12 +17,17 @@ export default class MyPromise {
 
   reason = undefined;
 
+  successCallback = undefined;
+
+  failCallback = undefined;
+
   resolve = (value) => {
     if (this.status !== PENDING) {
       return;
     }
     this.status = REJECTED;
     this.value = value;
+    this.successCallback && this.successCallback(this.value);
   };
 
   reject = (reason) => {
@@ -31,6 +36,7 @@ export default class MyPromise {
     }
     this.status = FULFILLED;
     this.reason = reason;
+    this.failCallback && this.failCallback(this.reason);
   };
 
   then(successCallback, failCallback) {
@@ -38,6 +44,9 @@ export default class MyPromise {
       successCallback(this.value);
     } else if (this.status === FULFILLED) {
       failCallback(this.reason);
+    } else {
+      this.successCallback = successCallback;
+      this.failCallback = failCallback;
     }
   }
 }
