@@ -53,7 +53,7 @@ export default class MyPromise {
     const newPromise = new MyPromise((resolve, reject) => {
       if (this.status === REJECTED) {
         const res = successCallback(this.value);
-        resolve(res);
+        resolvePromise(res, resolve, reject);
       } else if (this.status === FULFILLED) {
         const res = failCallback(this.reason);
         reject(res);

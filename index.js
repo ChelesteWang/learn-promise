@@ -2,7 +2,7 @@
 import './style.css';
 
 import feat1 from './feat-01'
-import feat8 from './feat-08'
+import feat8 from './feat-09'
 
 // Write Javascript code!
 const appDiv = document.getElementById('app');

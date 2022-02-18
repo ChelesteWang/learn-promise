@@ -10,7 +10,15 @@ export default function main() {
     setTimeout(() => {
       resolve('my promise 成功');
     }, 3000);
-  }).then((res) => console.log(res))
-  p.then((res) => console.log(res));
-  p.then((res) => console.log(res));
+  });
+
+  const p1 = new myPromise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('my promise test return promise 成功');
+    }, 3000);
+  });
+
+  p.then((res) => {
+    return "p1";
+  }).then((res) => console.log(res));
 }
