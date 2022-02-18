@@ -21,7 +21,7 @@ export default class MyPromise {
     if (this.status !== PENDING) {
       return;
     }
-    this.status = REJECTED;
+    this.status = FULFILLED;
     this.value = value;
   };
 
@@ -29,14 +29,14 @@ export default class MyPromise {
     if (this.status !== PENDING) {
       return;
     }
-    this.status = FULFILLED;
+    this.status = REJECTED;
     this.reason = reason;
   };
 
   then(successCallback, failCallback) {
-    if (this.status === REJECTED) {
+    if (this.status === FULFILLED) {
       successCallback(this.value);
-    } else if (this.status === FULFILLED) {
+    } else if (this.status === REJECTED) {
       failCallback(this.reason);
     }
   }
