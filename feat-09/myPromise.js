@@ -22,39 +22,31 @@ export default class MyPromise {
   failCallback = [];
 
   resolve = (value) => {
-    const newPromise = new MyPromise(() => {
-      if (this.status !== PENDING) {
-        return;
-      }
-      this.status = REJECTED;
-      this.value = value;
-      while (this.successCallback.length) {
-        this.successCallback.shift()(this.value);
-      }
-    });
-    return newPromise;
+    if (this.status !== PENDING) {
+      return;
+    }
+    this.status = FULFILLED;
+    this.value = value;
+    while (this.successCallback.length) {
+      this.successCallback.shift()(this.value);
+    }
   };
 
   reject = (reason) => {
-    const newPromise = new MyPromise(() => {
-      if (this.status !== PENDING) {
-        return;
-      }
-      this.status = FULFILLED;
-      this.reason = reason;
-      while (this.failCallback.length) {
-        this.failCallback.shift()(this.reason);
-      }
-    });
-    return newPromise;
+    if (this.status !== PENDING) {
+      return;
+    }
+    this.status = REJECTED;
+    this.reason = reason;
+    while (this.failCallback.length) {
+      this.failCallback.shift()(this.reason);
+    }
   };
 
   then(successCallback, failCallback) {
-    const newPromise = new MyPromise((resolve, reject) => {
-      console.log(this.status);
+    let newPromise = new MyPromise((resolve, reject) => {
       if (this.status === FULFILLED) {
         const res = successCallback(this.value);
-        console.log('22', res);
         resolvePromise(res, resolve, reject);
       } else if (this.status === REJECTED) {
         const res = failCallback(this.reason);
@@ -69,12 +61,9 @@ export default class MyPromise {
 }
 
 function resolvePromise(res, resolve, reject) {
-  console.log('123');
   if (res instanceof MyPromise) {
-    console.log('1');
     res.then(resolve, reject);
   } else {
-    console.log('2');
     resolve(res);
   }
 }

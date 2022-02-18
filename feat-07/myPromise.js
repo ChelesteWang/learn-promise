@@ -25,7 +25,7 @@ export default class MyPromise {
     if (this.status !== PENDING) {
       return;
     }
-    this.status = REJECTED;
+    this.status = FULFILLED;
     this.value = value;
     while (this.successCallback.length) {
       this.successCallback.shift()(this.value);
@@ -36,7 +36,7 @@ export default class MyPromise {
     if (this.status !== PENDING) {
       return;
     }
-    this.status = FULFILLED;
+    this.status = REJECTED;
     this.reason = reason;
     while (this.failCallback.length) {
       this.failCallback.shift()(this.reason);
@@ -44,9 +44,9 @@ export default class MyPromise {
   };
 
   then(successCallback, failCallback) {
-    if (this.status === REJECTED) {
+    if (this.status === FULFILLED) {
       successCallback(this.value);
-    } else if (this.status === FULFILLED) {
+    } else if (this.status === REJECTED) {
       failCallback(this.reason);
     } else {
       this.successCallback.push(successCallback);

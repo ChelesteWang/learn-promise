@@ -13,13 +13,13 @@ export default function main() {
   });
 
   const p1 = new myPromise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('my promise test return promise 成功');
-    }, 3000);
+    resolve('my promise test return promise 成功');
   });
 
   p.then((res) => {
     console.log(res);
-    return res;
+    return new myPromise((resolve, reject) => {
+      resolve('my promise test return promise 成功');
+    });
   }).then((res) => console.log(res));
 }
