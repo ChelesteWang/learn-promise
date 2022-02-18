@@ -2,9 +2,9 @@
 import './style.css';
 
 import feat1 from './feat-01'
-import feat8 from './feat-09'
+import feat9 from './feat-08'
 
 // Write Javascript code!
 const appDiv = document.getElementById('app');
 appDiv.innerHTML = `<h1>JS Starter</h1>`;
-feat8()
+feat9()

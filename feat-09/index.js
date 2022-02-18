@@ -19,6 +19,7 @@ export default function main() {
   });
 
   p.then((res) => {
-    return "p1";
+    console.log(res);
+    return res;
   }).then((res) => console.log(res));
 }

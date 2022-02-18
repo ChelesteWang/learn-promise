@@ -51,10 +51,12 @@ export default class MyPromise {
 
   then(successCallback, failCallback) {
     const newPromise = new MyPromise((resolve, reject) => {
-      if (this.status === REJECTED) {
+      console.log(this.status);
+      if (this.status === FULFILLED) {
         const res = successCallback(this.value);
+        console.log('22', res);
         resolvePromise(res, resolve, reject);
-      } else if (this.status === FULFILLED) {
+      } else if (this.status === REJECTED) {
         const res = failCallback(this.reason);
         reject(res);
       } else {
@@ -67,9 +69,12 @@ export default class MyPromise {
 }
 
 function resolvePromise(res, resolve, reject) {
+  console.log('123');
   if (res instanceof MyPromise) {
+    console.log('1');
     res.then(resolve, reject);
   } else {
+    console.log('2');
     resolve(res);
   }
 }
