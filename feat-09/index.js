@@ -17,9 +17,9 @@ export default function main() {
   });
 
   p.then((res) => {
-    console.log(res);
-    return new myPromise((resolve, reject) => {
-      resolve('my promise test return promise 成功');
-    });
-  }).then((res) => console.log(res));
+    return p1;
+  }).then(
+    (res) => console.log(res),
+    (reason) => console.log(reason)
+  );
 }
