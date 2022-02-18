@@ -3,7 +3,7 @@ const REJECTED = 'rejected';
 const FULFILLED = 'fulfilled';
 
 /**
- * 处理链式调用
+ * 处理链式调用返回 promise
  */
 
 export default class MyPromise {
@@ -22,6 +22,7 @@ export default class MyPromise {
   failCallback = [];
 
   resolve = (value) => {
+    
     if (this.status !== PENDING) {
       return;
     }
