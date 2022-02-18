@@ -10,7 +10,7 @@ export default function main() {
     setTimeout(() => {
       resolve('my promise 成功');
     }, 3000);
-  })
+  }).then((res) => console.log(res))
   p.then((res) => console.log(res));
   p.then((res) => console.log(res));
 }

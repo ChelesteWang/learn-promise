@@ -22,36 +22,46 @@ export default class MyPromise {
   failCallback = [];
 
   resolve = (value) => {
-    
-    if (this.status !== PENDING) {
-      return;
-    }
-    this.status = REJECTED;
-    this.value = value;
-    while (this.successCallback.length) {
-      this.successCallback.shift()(this.value);
-    }
+    const newPromise = new MyPromise(() => {
+      if (this.status !== PENDING) {
+        return;
+      }
+      this.status = REJECTED;
+      this.value = value;
+      while (this.successCallback.length) {
+        this.successCallback.shift()(this.value);
+      }
+    });
+    return newPromise;
   };
 
   reject = (reason) => {
-    if (this.status !== PENDING) {
-      return;
-    }
-    this.status = FULFILLED;
-    this.reason = reason;
-    while (this.failCallback.length) {
-      this.failCallback.shift()(this.reason);
-    }
+    const newPromise = new MyPromise(() => {
+      if (this.status !== PENDING) {
+        return;
+      }
+      this.status = FULFILLED;
+      this.reason = reason;
+      while (this.failCallback.length) {
+        this.failCallback.shift()(this.reason);
+      }
+    });
+    return newPromise;
   };
 
   then(successCallback, failCallback) {
-    if (this.status === REJECTED) {
-      successCallback(this.value);
-    } else if (this.status === FULFILLED) {
-      failCallback(this.reason);
-    } else {
-      this.successCallback.push(successCallback);
-      this.failCallback.push(failCallback);
-    }
+    const newPromise = new MyPromise((resolve, reject) => {
+      if (this.status === REJECTED) {
+        const res = successCallback(this.value);
+        resolve(res);
+      } else if (this.status === FULFILLED) {
+        const res = failCallback(this.reason);
+        reject(res);
+      } else {
+        this.successCallback.push(successCallback);
+        this.failCallback.push(failCallback);
+      }
+    });
+    return newPromise;
   }
 }
